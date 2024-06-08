@@ -15,7 +15,7 @@ const EmployeeForm = () => {
     e.preventDefault();
     const newEmployee = {
       id: Date.now(),
-      image,
+      image: '../../../public/' + image,
       firstName,
       lastName,
       phoneNumber,

@@ -31,12 +31,12 @@ const EmployeeTable = () => {
       key: 'phoneNumber',
     },
     {
-      title: 'Action',
+      title: 'Actions',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Link to={`/edit/${record.id}`}>Edit</Link> {/* Pass id in the link */}
-          <a onClick={() => handleDelete(record)}>Delete</a>
+          <Link className='button' to={`/edit/${record.id}`}>Edit</Link> {/* Pass id in the link */}
+          <a className='button' onClick={() => handleDelete(record)}>Delete</a>
         </Space>
       ),
     },

@@ -4,17 +4,17 @@ const initialState = {
   employees: [
     {
       id: 1,
-      image: 'https://via.placeholder.com/150',
-      firstName: 'John',
-      lastName: 'Doe',
-      phoneNumber: '123-456-7890',
+      image: '../../../public/avatar2.png',
+      firstName: 'Nazeer',
+      lastName: 'Bhai',
+      phoneNumber: '03146547982',
     },
     {
       id: 2,
-      image: 'https://via.placeholder.com/150',
-      firstName: 'Jane',
-      lastName: 'Smith',
-      phoneNumber: '987-654-3210',
+      image: '../../../public/avatar_man.png',
+      firstName: 'Aawaiz',
+      lastName: 'Ali',
+      phoneNumber: '03153738555',
     },
     // Add more dummy data as needed
   ],
