@@ -9,3 +9,6 @@
     color: #fff !important;
 }
 
+.ant-table-content {
+    padding-left: 60px !important;
+}

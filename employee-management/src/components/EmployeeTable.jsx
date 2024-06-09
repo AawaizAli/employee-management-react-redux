@@ -51,7 +51,7 @@ const EmployeeTable = () => {
     key: index, // Using index as the key, adjust if necessary
   }));
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table className='table' columns={columns} dataSource={data} />;
 };
 
 export default EmployeeTable;

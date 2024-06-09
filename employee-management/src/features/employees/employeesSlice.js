@@ -4,14 +4,14 @@ const initialState = {
   employees: [
     {
       id: 1,
-      image: '../../../public/avatar2.png',
+      image: '../../../avatar2.png',
       firstName: 'Nazeer',
       lastName: 'Bhai',
       phoneNumber: '03146547982',
     },
     {
       id: 2,
-      image: '../../../public/avatar_man.png',
+      image: '../../../avatar_man.png',
       firstName: 'Aawaiz',
       lastName: 'Ali',
       phoneNumber: '03153738555',

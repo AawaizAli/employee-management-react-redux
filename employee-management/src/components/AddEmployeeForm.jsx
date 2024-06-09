@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Form, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { editEmployee } from '../features/employees/employeesSlice';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addEmployee } from '../features/employees/employeesSlice';
+import { useNavigate } from 'react-router-dom';
 
-const EditEmployeeForm = () => {
-  const { id } = useParams();
+const AddEmployeeForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const employees = useSelector((state) => state.employees.employees);
-
-  const [form] = Form.useForm();
-  const [initialValues, setInitialValues] = useState({
-    image: '',
-    firstName: '',
-    lastName: '',
-    phoneNumber: ''
-  });
-
-  useEffect(() => {
-    const employee = employees.find((emp) => emp.id === Number(id));
-    if (employee) {
-      setInitialValues(employee);
-      form.setFieldsValue(employee);
-    }
-  }, [employees, id, form]);
 
   const onFinish = (values) => {
-    dispatch(editEmployee({ ...values, id: Number(id) }));
+    dispatch(addEmployee(values));
     navigate('/');
   };
 
@@ -37,12 +19,11 @@ const EditEmployeeForm = () => {
 
   return (
     <Form
-      form={form}
-      name="edit-employee"
+      name="add-employee"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 600, margin: 'auto' }}
-      initialValues={initialValues}
+      initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
@@ -81,11 +62,11 @@ const EditEmployeeForm = () => {
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">
-          Update
+          Submit
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default EditEmployeeForm;
+export default AddEmployeeForm;
