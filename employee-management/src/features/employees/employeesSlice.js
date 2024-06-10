@@ -1,25 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  employees: [
-    {
-      id: 1,
-      image: '../../../avatar2.png',
-      firstName: 'Nazeer',
-      lastName: 'Bhai',
-      phoneNumber: '03146547982',
-    },
-    {
-      id: 2,
-      image: '../../../avatar_man.png',
-      firstName: 'Aawaiz',
-      lastName: 'Ali',
-      phoneNumber: '03153738555',
-    },
-    // Add more dummy data as needed
-  ],
+  employees: [],
 };
-
 
 const employeesSlice = createSlice({
   name: 'employees',
@@ -41,5 +24,4 @@ const employeesSlice = createSlice({
 });
 
 export const { addEmployee, editEmployee, deleteEmployee } = employeesSlice.actions;
-
 export default employeesSlice.reducer;

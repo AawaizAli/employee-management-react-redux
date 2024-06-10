@@ -19,6 +19,7 @@ const EditEmployeeForm = () => {
   });
 
   useEffect(() => {
+    console.log('Editing employee with id:', id); // Debugging log
     const employee = employees.find((emp) => emp.id === Number(id));
     if (employee) {
       setInitialValues(employee);

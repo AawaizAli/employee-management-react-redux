@@ -9,7 +9,10 @@ const AddEmployeeForm = () => {
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    dispatch(addEmployee(values));
+    const id = Math.floor(Math.random() * 1000); 
+    console.log(id);
+    console.log(values);
+    dispatch(addEmployee({ ...values, id })); 
     navigate('/');
   };
 

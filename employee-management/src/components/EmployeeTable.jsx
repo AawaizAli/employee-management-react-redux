@@ -35,8 +35,8 @@ const EmployeeTable = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Link className='button' to={`/edit/${record.id}`}>Edit</Link> {/* Pass id in the link */}
-          <a className='button' onClick={() => handleDelete(record)}>Delete</a>
+          <Link to={`/edit/${record.id}`}>Edit</Link>
+          <a onClick={() => handleDelete(record)}>Delete</a>
         </Space>
       ),
     },
@@ -51,7 +51,7 @@ const EmployeeTable = () => {
     key: index, // Using index as the key, adjust if necessary
   }));
 
-  return <Table className='table' columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} />;
 };
 
 export default EmployeeTable;
