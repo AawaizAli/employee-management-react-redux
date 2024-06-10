@@ -21,7 +21,6 @@ const AddEmployeeForm = () => {
   };
 
   const handleImageChange = (fileList) => {
-    // Convert lastModifiedDate to serialized format
     const serializedFileList = fileList.map(file => ({
       uid: file.uid,
       name: file.name,
@@ -29,7 +28,6 @@ const AddEmployeeForm = () => {
       type: file.type,
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
-      // Add any other necessary properties from the file object
     }));
 
     console.log('Serialized fileList:', serializedFileList); // Debugging log

@@ -6,7 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ImageUpload from './ImageUpload'; // Assuming ImageUpload is in the same directory
 
 const EditEmployeeForm = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the employee ID from the URL
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const employees = useSelector((state) => state.employees.employees);
@@ -18,11 +18,10 @@ const EditEmployeeForm = () => {
     lastName: '',
     phoneNumber: '',
   });
-
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
-    console.log('Editing employee with id:', id); // Debugging log
+    // Find the employee by ID and set the initial values
     const employee = employees.find((emp) => emp.id === Number(id));
     if (employee) {
       setInitialValues(employee);
@@ -30,6 +29,12 @@ const EditEmployeeForm = () => {
       setImageList(employee.image); // Initialize imageList with current employee's image
     }
   }, [employees, id, form]);
+
+  const onFinish = (values) => {
+    const updatedEmployee = { ...values, id: Number(id), image: imageList };
+    dispatch(editEmployee(updatedEmployee));
+    navigate('/');
+  };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -44,20 +49,13 @@ const EditEmployeeForm = () => {
       type: file.type,
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
-      // Add any other necessary properties from the file object
+      originFileObj: file.originFileObj,
     }));
-  
+
     console.log('Serialized fileList:', serializedFileList); // Debugging log
-  
+
     // Update imageList state
     setImageList(serializedFileList);
-  };
-  
-  const onFinish = (values) => {
-    const sanitizedValues = { ...values, image: imageList };
-    console.log('Sanitized values:', sanitizedValues); // Check the values being dispatched
-    dispatch(editEmployee(sanitizedValues));
-    navigate('/');
   };
 
   return (
@@ -74,7 +72,7 @@ const EditEmployeeForm = () => {
     >
       {/* Image Upload Component */}
       <Form.Item label="Upload Image" name="image" rules={[{ required: true, message: 'Please upload an image!' }]}>
-        <ImageUpload onChange={handleImageChange} defaultFileList={initialValues.image} />
+        <ImageUpload onChange={handleImageChange} defaultFileList={imageList} />
       </Form.Item>
 
       <Form.Item label="First Name" name="firstName" rules={[{ required: true, message: 'Please input first name!' }]}>
