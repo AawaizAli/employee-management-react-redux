@@ -12,9 +12,10 @@ const employeesSlice = createSlice({
       state.employees.push(action.payload);
     },
     editEmployee: (state, action) => {
-      const index = state.employees.findIndex(emp => emp.id === action.payload.id);
+      const { id, ...updatedEmployee } = action.payload;
+      const index = state.employees.findIndex(emp => emp.id === id);
       if (index !== -1) {
-        state.employees[index] = action.payload;
+        state.employees[index] = { ...state.employees[index], ...updatedEmployee };
       }
     },
     deleteEmployee: (state, action) => {

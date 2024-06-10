@@ -13,7 +13,7 @@ const EmployeeTable = () => {
       title: 'Image',
       dataIndex: 'image',
       key: 'image',
-      render: (image) => <img src={image} alt="employee" style={{ width: '50px', height: '50px' }} />,
+      render: (image) => <img src={`../../${image[0].name}`} alt="employee" style={{ width: '50px', height: '50px' }} />,
     },
     {
       title: 'First Name',

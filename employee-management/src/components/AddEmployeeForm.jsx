@@ -1,23 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../features/employees/employeesSlice';
 import { useNavigate } from 'react-router-dom';
+import ImageUpload from './ImageUpload'; // Assuming ImageUpload is in the same directory
 
 const AddEmployeeForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [imageList, setImageList] = useState([]);
 
   const onFinish = (values) => {
-    const id = Math.floor(Math.random() * 1000); 
-    console.log(id);
-    console.log(values);
-    dispatch(addEmployee({ ...values, id })); 
+    const id = Math.floor(Math.random() * 1000); // Generate a random ID
+    dispatch(addEmployee({ ...values, id, image: imageList }));
     navigate('/');
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleImageChange = (fileList) => {
+    // Convert lastModifiedDate to serialized format
+    const serializedFileList = fileList.map(file => ({
+      uid: file.uid,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified,
+      lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
+      // Add any other necessary properties from the file object
+    }));
+
+    console.log('Serialized fileList:', serializedFileList); // Debugging log
+
+    // Update imageList state
+    setImageList(serializedFileList);
   };
 
   return (
@@ -31,27 +49,16 @@ const AddEmployeeForm = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Form.Item
-        label="Image URL"
-        name="image"
-        rules={[{ required: true, message: 'Please input image URL!' }]}
-      >
+      {/* Image Upload Component */}
+      <Form.Item label="Upload Image" name="image" rules={[{ required: true, message: 'Please upload an image!' }]}>
+        <ImageUpload onChange={handleImageChange} defaultFileList={imageList} />
+      </Form.Item>
+
+      <Form.Item label="First Name" name="firstName" rules={[{ required: true, message: 'Please input first name!' }]}>
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="First Name"
-        name="firstName"
-        rules={[{ required: true, message: 'Please input first name!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Last Name"
-        name="lastName"
-        rules={[{ required: true, message: 'Please input last name!' }]}
-      >
+      <Form.Item label="Last Name" name="lastName" rules={[{ required: true, message: 'Please input last name!' }]}>
         <Input />
       </Form.Item>
 

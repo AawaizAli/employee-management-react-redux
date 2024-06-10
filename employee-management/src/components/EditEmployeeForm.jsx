@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { editEmployee } from '../features/employees/employeesSlice';
 import { useParams, useNavigate } from 'react-router-dom';
+import ImageUpload from './ImageUpload'; // Assuming ImageUpload is in the same directory
 
 const EditEmployeeForm = () => {
   const { id } = useParams();
@@ -12,11 +13,13 @@ const EditEmployeeForm = () => {
 
   const [form] = Form.useForm();
   const [initialValues, setInitialValues] = useState({
-    image: '',
+    image: [],
     firstName: '',
     lastName: '',
-    phoneNumber: ''
+    phoneNumber: '',
   });
+
+  const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
     console.log('Editing employee with id:', id); // Debugging log
@@ -24,16 +27,37 @@ const EditEmployeeForm = () => {
     if (employee) {
       setInitialValues(employee);
       form.setFieldsValue(employee);
+      setImageList(employee.image); // Initialize imageList with current employee's image
     }
   }, [employees, id, form]);
 
-  const onFinish = (values) => {
-    dispatch(editEmployee({ ...values, id: Number(id) }));
-    navigate('/');
-  };
-
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleImageChange = (fileList) => {
+    // Convert lastModifiedDate to serialized format
+    const serializedFileList = fileList.map(file => ({
+      uid: file.uid,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified,
+      lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
+      // Add any other necessary properties from the file object
+    }));
+  
+    console.log('Serialized fileList:', serializedFileList); // Debugging log
+  
+    // Update imageList state
+    setImageList(serializedFileList);
+  };
+  
+  const onFinish = (values) => {
+    const sanitizedValues = { ...values, image: imageList };
+    console.log('Sanitized values:', sanitizedValues); // Check the values being dispatched
+    dispatch(editEmployee(sanitizedValues));
+    navigate('/');
   };
 
   return (
@@ -48,27 +72,16 @@ const EditEmployeeForm = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Form.Item
-        label="Image URL"
-        name="image"
-        rules={[{ required: true, message: 'Please input image URL!' }]}
-      >
+      {/* Image Upload Component */}
+      <Form.Item label="Upload Image" name="image" rules={[{ required: true, message: 'Please upload an image!' }]}>
+        <ImageUpload onChange={handleImageChange} defaultFileList={initialValues.image} />
+      </Form.Item>
+
+      <Form.Item label="First Name" name="firstName" rules={[{ required: true, message: 'Please input first name!' }]}>
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="First Name"
-        name="firstName"
-        rules={[{ required: true, message: 'Please input first name!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Last Name"
-        name="lastName"
-        rules={[{ required: true, message: 'Please input last name!' }]}
-      >
+      <Form.Item label="Last Name" name="lastName" rules={[{ required: true, message: 'Please input last name!' }]}>
         <Input />
       </Form.Item>
 
